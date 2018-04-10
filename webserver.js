@@ -1,5 +1,5 @@
 
-var nport = 8080;
+var nport = 80;
 
 var express = require("express");
 var ejs = require("ejs");
@@ -11,25 +11,24 @@ app.use(express.static('webapp'));
 app.set('view engine', 'ejs');
 
 var items = [
-	{"name":"Benu","age":18,"sex":"man"},
-	{"name":"Zmk","age":20,"sex":"woman"}
+	{"name":"Benu","age":38,"sex":"man"},
+	{"name":"Mingkai","age":38,"sex":"man"},
+	{"name":"Zhiyong","age":38,"sex":"man"},
+	{"name":"Hailong","age":36,"sex":"man"},
+	{"name":"Liuxin","age":37,"sex":"woman"},
 ];
-// mongodb.insert("user", items);
+//mongodb.insert("user", items);
 // mongodb.find("user");
 
 app.get('/', function(req,res){
-	console.log("request for" + req.pathname);
+	console.log("request1 for" + req.path);
 });
 
-function find_callback(cols) {
-	res.render('listname', {title:'姓名', items:cols}); 
-}
-
-app.get('/listname', function(req,res){
+app.get('/list/*', function(req,res){
 	console.log("request for " + req.path);
 
 	// var items = [{"name":"cd","age":18}, {"name":"lw","age":20}];
-	mongodb.find("user", {}, function(cols) {
+	mongodb.find("user", {"name":req.path.slice(6)}, function(cols) {
 		res.render('listname', {title:'姓名', items:cols});
 	});
 });
